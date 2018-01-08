@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
-#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
+//#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
 #define NUM_GRAPHS 3
 
