@@ -4,29 +4,26 @@
 
 #ifndef __TYPE
 #define __TYPE
-#define TYPE      char
+#define TYPE      int
 #define TYPE_SIZE sizeof(int)
 #endif
-
+/* defines less than macro */
 #ifndef LT
 #define LT(A, B) ((A) < (B))
 #endif
-
+/* defines equality macro */
 #ifndef EQ
 #define EQ(A, B) ((A) == (B))
 #endif
-
+/* defines synonym for struct */
 typedef struct DynArr DynArr;
 
 /* Dynamic Array Functions */
 void initDynArr(DynArr *v, int capacity);	
 DynArr *newDynArr(int cap);
-
 void freeDynArr(DynArr *v);
 void deleteDynArr(DynArr *v);
-
 int sizeDynArr(DynArr *v);
-
 void addDynArr(DynArr *v, TYPE val);
 TYPE getDynArr(DynArr *v, int pos);
 void putDynArr(DynArr *v, int pos, TYPE val);
@@ -40,7 +37,6 @@ TYPE topDynArr(DynArr *v);
 void popDynArr(DynArr *v);
 
 /* Bag Interface */	
-/* Note addDynArr is already declared above*/
 int containsDynArr(DynArr *v, TYPE val);
 void removeDynArr(DynArr *v, TYPE val);
 
