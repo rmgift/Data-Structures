@@ -1,19 +1,19 @@
 /* CS261- Assignment 3 - Part 1 */
 /* Name: Ryan Gift
  * Date: 04/30/2017
- * Solution description: This program implements the deque
- * and bag ADT with two sentinels. The methods below add elements
- * to both data types, remove elements, print the elements, destroy
- * structure, indicate if its empty, and if it contains the element.
- * This file should be combined with the linkedList.h file and the
- * linkedListMain.c file.
+ * Description: This program implements the deque and bag ADT with 
+ * two sentinels. The methods below add elements to both data types, 
+ * remove elements, print the elements, destroy structure, indicate 
+ * if its empty, and if it contains the element. This file should be 
+ * combined with the linkedList.h file and the linkedListMain.c file.
  */
-#include "linkedList.h"
+
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "linkedList.h"
 
-// Double link
+/* Double link */
 struct Link
 {
 	TYPE value;
@@ -21,7 +21,7 @@ struct Link
 	struct Link* prev;
 };
 
-// Double linked list with front and back sentinels
+/* Double linked list with front and back sentinels */
 struct LinkedList
 {
 	int size;
@@ -35,30 +35,26 @@ struct LinkedList
  *--------------------- Deque Linked List Functions ---------------------*
  *                                                                       *
  ************************************************************************/
-/*
- * Allocates the list's sentinel and sets the size to 0.
+/* Allocates the list's sentinel and sets the size to 0.
  * The sentinels' next and prev should point to eachother or NULL
  * as appropriate.
  */
 static void init(struct LinkedList* list) {
-	/* allocate front sentinel */
+	/* allocate front and back sentinels */
 	list->frontSentinel = malloc(sizeof(struct Link));
 	assert(list->frontSentinel != 0);
-	/* allocate back sentinel */
 	list->backSentinel = malloc(sizeof(struct Link));
 	assert(list->backSentinel != 0);
-	/* assign front sentinel to appropriate locations */
+	/* assign front and back sentinel to appropriate locations */
 	list->frontSentinel->prev = 0;
 	list->frontSentinel->next = list->backSentinel;
-	/* assign back sentinel to appropriate locations */
 	list->backSentinel->next = 0;
 	list->backSentinel->prev = list->frontSentinel;
 	/* set list size to zero as nothings in the list */
 	list->size = 0;
 }
 
-/*
- * Adds a new link with the given value before the given link and
+/* Adds a new link with the given value before the given link and
  * increments the list's size.
  */
 static void addLinkBefore(struct LinkedList* list, struct Link* link, TYPE value)
@@ -67,28 +63,22 @@ static void addLinkBefore(struct LinkedList* list, struct Link* link, TYPE value
 	 * oldPrevLink  -  newLink  -  link (given)
 	 */
 	
-	/* create a newLink to be added */
+	/* create a newLink to be added and save the given links previous */
 	struct Link * newLink = (struct Link*)malloc(sizeof(struct Link));
-	/* save the given link, previous link */
 	struct Link * currPrevLink = link->prev;
-	/* assign newLink to given link prev */
+	/* assign all next and previous links appropriately */
 	link->prev = newLink;
-	/* assign newLink to oldPrevLink next */
 	currPrevLink->next = newLink;
-	/* assign saved link prev to newLink prev */
 	newLink->prev = currPrevLink;
-	/* assign newLink next to link (given) */
 	newLink->next = link;
-	/* insertion complete, assign value to newLink */
+	/* insertion complete, assign value to newLink and increment size */
 	newLink->value = value;
-	/* increment the size by 1 */
 	list->size++;
 }
 
 /* Removes the given link from the list and decrements the list's size. */
 static void removeLink(struct LinkedList* list, struct Link* link)
 {
-	/* assert list is not empty as to not delete sentinels */
 	assert(!linkedListIsEmpty(list));
 	/* reassign next and prev appropriately */
 	link->prev->next = link->next;
@@ -106,8 +96,7 @@ struct LinkedList* linkedListCreate()
 	return newDeque;
 }
 
-/*
- * Deallocates every link in the list including the sentinels,
+/* Deallocates every link in the list including the sentinels,
  * and frees the list itself.
  */
 void linkedListDestroy(struct LinkedList* list)
@@ -176,7 +165,6 @@ int linkedListIsEmpty(struct LinkedList* list)
 /* Prints the values of the links in the deque from front to back. */
 void linkedListPrint(struct LinkedList* list)
 {
-	/* create temp link for position */
 	struct Link *temp = list->frontSentinel->next;
 	/* while not the back sentinel, print our values */
 	while (temp != list->backSentinel)
@@ -209,9 +197,8 @@ int linkedListContains(struct LinkedList* list, TYPE value)
 	/* assert list is not empty */
 	assert(list != 0);
 	assert(!linkedListIsEmpty(list));
-
 	struct Link *newLnk = list->frontSentinel->next;
-	/* if newLnk equals our value return true */
+	/* iterate the list and return true if we found the value */
 	while (newLnk != list->backSentinel)
 	{
 		if (EQ(newLnk->value, value))
@@ -220,7 +207,6 @@ int linkedListContains(struct LinkedList* list, TYPE value)
 		}
 		newLnk = newLnk->next;
 	}
-	/* else return false */
 	return 0;
 }
 
@@ -232,7 +218,7 @@ void linkedListRemove(struct LinkedList* list, TYPE value)
 	assert(!linkedListIsEmpty(list));
 
 	struct Link *temp = list->frontSentinel->next;
-	/* if temp equals our value, remove it*/
+	/* iterate list and if value found, remove it*/
 	while (temp != list->backSentinel)
 	{
 		if (EQ(temp->value, value))

@@ -1,14 +1,15 @@
 /* CS261- Assignment 3 - Part 1
 * Name: Ryan Gift
 * Date: 04/30/2017
-* Description: File tests a few simple functions of the circular
-* linked list utilizing the deque data structure.
+* Description: File tests a few simple functions of the LL 
+* utilizing the deque data structure.
 */
 #include "linkedList.h"
 #include <stdio.h>
 
 int main()
 {
+	/* DEQUE */
 	struct LinkedList* l = linkedListCreate(); 
 	linkedListAddFront(l, (TYPE)1);
 	linkedListAddBack(l, (TYPE)2);
@@ -23,9 +24,7 @@ int main()
 	linkedListRemoveBack(l);
 	linkedListPrint(l);
 
-	
 	/* BAG */
-	
 	struct LinkedList* k = linkedListCreate(); 
 	linkedListAdd (k, (TYPE)10);
 	linkedListAdd (k, (TYPE)11);
@@ -35,6 +34,5 @@ int main()
 	linkedListPrint(k);
 
 	system("pause");
-
 	return 0;
 }
