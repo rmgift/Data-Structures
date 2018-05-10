@@ -1,15 +1,15 @@
 /* Provided by Professor */
-#include "graph.h"
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
-//#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
+#include "graph.h"
+#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
 #define NUM_GRAPHS 3
 
 int main()
 {
-    // Load graphs
+    /* Load graphs */
     Graph* graphs[NUM_GRAPHS];
     char nameBuffer[256];
     for (int i = 0; i < NUM_GRAPHS; ++i)
@@ -18,7 +18,7 @@ int main()
         graphs[i] = loadGraph(nameBuffer);
     }
     
-    // Run DFS and BFS on each graph
+    /* Run DFS and BFS on each graph */
     for (int graphNum = 0; graphNum < NUM_GRAPHS; ++graphNum)
     {
         Graph* g = graphs[graphNum];
@@ -34,15 +34,12 @@ int main()
                 printf("%d ... %d : ", v1->label, v2->label);
                 int dfs = dfsIterative(g, v1, v2);
                 int bfs = bfsIterative(g, v1, v2);
-                printf("DFS %s, BFS %s\n",
-                       (dfs == 1) ? "path" : "no path",
-                       (bfs == 1) ? "path" : "no path");
+                printf("DFS %s, BFS %s\n", (dfs == 1) ? "path" : "no path", (bfs == 1) ? "path" : "no path");
             }
         }
         freeGraph(g);
     }
     
 	system("pause");
-
     return 0;
 }

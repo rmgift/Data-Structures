@@ -1,7 +1,4 @@
-/* Provided by Professor
- * CS 261 Data Structures
- * Assignment 7
- */
+/* Provided by Professor - CS 261 Data Structures - Assignment 7 */
 #ifndef DEQUE_H
 #define DEQUE_H
 

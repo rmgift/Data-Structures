@@ -1,18 +1,14 @@
-/* Provided by Professor
- * CS 261 Data Structures
- * Assignment 7
- */
-#include "cutest/CuTest.h"
-#include "deque.h"
-#include "graph.h"
+/* Provided by Professor - CS 261 Data Structures - Assignment 7 */
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
+#include "cutest/CuTest.h"
+#include "deque.h"
+#include "graph.h"
 
-/*
- * Compares the output of DfsIterative with the output of DfsRecursive for every
+/* Compares the output of DfsIterative with the output of DfsRecursive for every
  * pair of vertices in 10 random graphs.
- * @param test
+ * param: test
  */
 void testDfsIterative(CuTest* test)
 {
@@ -39,10 +35,9 @@ void testDfsIterative(CuTest* test)
     printf("\n");
 }
 
-/*
- * Compares the output of BfsIterative with the output of DfsRecursive for every
+/* Compares the output of BfsIterative with the output of DfsRecursive for every
  * pair of vertices in 10 random graphs.
- * @param test
+ * param: test
  */
 void testBfsIterative(CuTest* test)
 {

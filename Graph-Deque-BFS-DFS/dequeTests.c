@@ -1,11 +1,7 @@
-/* Provided by Professor
- * CS 261 Data Structures
- * Assignment 7
- */
-
+/* Provided by Professor CS 261 Data Structures - Assignment 7 */
+#include <stdlib.h>
 #include "cutest/CuTest.h"
 #include "deque.h"
-#include <stdlib.h>
 
 int** createValues(int n)
 {

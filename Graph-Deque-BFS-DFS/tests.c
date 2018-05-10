@@ -17,5 +17,7 @@ int main()
     printf("%s\n", output->buffer);
     CuStringDelete(output);
     CuSuiteDelete(suite);
+
+	system("pause");
     return 0;
 }

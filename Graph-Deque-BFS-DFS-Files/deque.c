@@ -1,14 +1,10 @@
-/* Provided by Professor
- * CS 261 Data Structures
- * Assignment 7
- */
-#include "deque.h"
+/* Provided by Professor - CS 261 Data Structures - Assignment 7 */
 #include <stdlib.h>
 #include <assert.h>
+#include "deque.h"
 
-/*
- * Frees the given link and connects its previous and next links.
- * @param link
+/* Frees the given link and connects its previous and next links.
+ * param: link
  */
 static void removeLink(Link* link)
 {
@@ -17,10 +13,8 @@ static void removeLink(Link* link)
     free(link);
 }
 
-/*
- * Creates a new link with the given value and inserts it after the given link.
- * @param link
- * @param value
+/* Creates a new link with the given value and inserts it after the given link.
+ * param: link and value
  */
 static void addLinkAfter(Link* link, Type value)
 {
@@ -32,10 +26,7 @@ static void addLinkAfter(Link* link, Type value)
     newLink->prev->next = newLink;
 }
 
-/*
- * Allocates a new deque, initializes it, and returns it.
- * @return new initialized deque.
- */
+/* Allocates a new deque, initializes it, and returns it. */
 Deque* dequeNew()
 {
     Deque* deque = malloc(sizeof(Deque));
@@ -48,10 +39,7 @@ Deque* dequeNew()
     return deque;
 }
 
-/*
- * Frees allocated memory in the given deque and the deque itself.
- * @param deque
- */
+/* Frees allocated memory in the given deque and the deque itself. */
 void dequeDelete(Deque* deque)
 {
     dequeClear(deque);
@@ -59,11 +47,9 @@ void dequeDelete(Deque* deque)
     free(deque);
 }
 
-/*
- * Creates a new link with the given value and inserts it at the front of the
+/* Creates a new link with the given value and inserts it at the front of the
  * deque. Also increments the size of the deque.
- * @param deque
- * @param value
+ * param: deque and value
  */
 void dequePushFront(Deque* deque, Type value)
 {
@@ -71,11 +57,9 @@ void dequePushFront(Deque* deque, Type value)
     ++(deque->size);
 }
 
-/*
- * Creates a new link with the given value and inserts it at the back of the
+/* Creates a new link with the given value and inserts it at the back of the
  * deque. Also increments the size of the deque.
- * @param deque
- * @param value
+ * param: deque and value
  */
 void dequePushBack(Deque* deque, Type value)
 {
@@ -83,10 +67,9 @@ void dequePushBack(Deque* deque, Type value)
     ++(deque->size);
 }
 
-/*
- * Returns the value of the link at the front of the deque.
- * @param deque
- * @return value of front link.
+/* Returns the value of the link at the front of the deque.
+ * param: deque
+ * return: value of front link.
  */
 Type dequeFront(Deque* deque)
 {
@@ -94,10 +77,9 @@ Type dequeFront(Deque* deque)
     return deque->sentinel->next->value;
 }
 
-/*
- * Returns the value of the link at the back of the deque.
- * @param deque
- * @return value of back link.
+/* Returns the value of the link at the back of the deque.
+ * param: deque
+ * return: value of back link.
  */
 Type dequeBack(Deque* deque)
 {
@@ -105,10 +87,9 @@ Type dequeBack(Deque* deque)
     return deque->sentinel->prev->value;
 }
 
-/*
- * Removes and frees the link at the front of the deque. Also decrements the
+/* Removes and frees the link at the front of the deque. Also decrements the
  * size of the deque.
- * @param deque
+ * param: deque
  */
 void dequePopFront(Deque* deque)
 {
@@ -117,10 +98,9 @@ void dequePopFront(Deque* deque)
     --(deque->size);
 }
 
-/*
- * Removes and frees the link at the back of the deque. Also decrements the
+/* Removes and frees the link at the back of the deque. Also decrements the
  * size of the deque.
- * @param deque
+ * param: deque
  */
 void dequePopBack(Deque* deque)
 {
@@ -129,20 +109,13 @@ void dequePopBack(Deque* deque)
     --(deque->size);
 }
 
-/*
- * Returns 1 if the deque is empty and 0 otherwise.
- * @param deque
- * @return 1 if empty, 0 otherwise.
- */
+/* Returns 1 if the deque is empty and 0 otherwise. */
 int dequeIsEmpty(Deque* deque)
 {
     return deque->size == 0;
 }
 
-/*
- * Removes and frees all links in the deque, except the sentinel.
- * @param deque
- */
+/* Removes and frees all links in the deque, except the sentinel. */
 void dequeClear(Deque* deque)
 {
     while (!dequeIsEmpty(deque))

@@ -1,7 +1,4 @@
-/* CS 261 Data Structures
- * Assignment 7
- * Provided by Professor
- */
+/* CS 261 Data Structures - Assignment 7 - Provided by Professor */
 #ifndef GRAPH_H
 #define GRAPH_H
 
