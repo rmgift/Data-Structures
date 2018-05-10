@@ -1,6 +1,5 @@
 /* Provided by Professor
- * CS 261 Data Structures
- * Assignment 6
+ * CS 261 Data Structures - Assignment 6
  */
 #include "CuTest.h"
 #include "hashMap.h"
@@ -10,7 +9,7 @@
 #include <string.h>
  #pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
-// --- Test Helpers ---
+/* --- Test Helpers --- */
 typedef struct HistLink HistLink;
 typedef struct Histogram Histogram;
 
@@ -64,10 +63,8 @@ void histAdd(Histogram* hist, char* key)
     hist->size++;
 }
 
-/*
- * Counts the number of times each key appears in the table.
- * @param hist
- * @param map
+/* Counts the number of times each key appears in the table.
+ * param: hist and map
  */
 void histFromTable(Histogram* hist, HashMap* map)
 {
@@ -83,10 +80,8 @@ void histFromTable(Histogram* hist, HashMap* map)
     }
 }
 
-/*
- * Asserts that each key is unique (count is 1 for each key).
- * @param test
- * @param hist
+/* Asserts that each key is unique (count is 1 for each key).
+ * param test and hist
  */
 void assertHistCounts(CuTest* test, Histogram* hist)
 {
@@ -98,8 +93,9 @@ void assertHistCounts(CuTest* test, Histogram* hist)
     }
 }
 
-// --- Hash Map tests ---
-/* Test cases:
+
+/* Hash Map tests 
+ * Test cases:
  * - At most one link in each bucket under threshold.
  * - At most one link in each bucket over threshold.
  * - Multiple links in some buckets under threshold.
@@ -107,39 +103,35 @@ void assertHistCounts(CuTest* test, Histogram* hist)
  * - Multiple links in some buckets over threshold with duplicates.
  */
 
-/*
- * Tests all hash map functions after adding and removing all of the given keys
- * and values.
- * @param test
- * @param links The key-value pairs to be added and removed.
- * @param notKeys Some keys not in the table to test contains and get.
- * @param numLinks The number of key-value pairs to be added and removed.
- * @param numNotKeys The number of keys not in the table.
- * @param numBuckets The initial number of buckets (capacity) in the table.
+/* Tests all hash map functions after adding and removing all of the given keys and values.
+ * param: test
+ * param: links The key-value pairs to be added and removed.
+ * param: notKeys Some keys not in the table to test contains and get.
+ * param: numLinks The number of key-value pairs to be added and removed.
+ * param: numNotKeys The number of keys not in the table.
+ * param: numBuckets The initial number of buckets (capacity) in the table.
  */
-void testCase(CuTest* test, HashLink* links, const char** notKeys, int numLinks,
-              int numNotKeys, int numBuckets)
+void testCase(CuTest* test, HashLink* links, const char** notKeys, int numLinks, int numNotKeys, int numBuckets)
 {
     HashMap* map = hashMapNew(numBuckets);
     Histogram hist;
     
-    // Add links
+    /* Add links */
     for (int i = 0; i < numLinks; i++)
     {
         hashMapPut(map, links[i].key, links[i].value);
     }
-    
-    // Print table
+    /* Print table */
     printf("\nAfter adding all key-value pairs:");
     hashMapPrint(map);
     
-    // Check size
+    /* Check size */
     CuAssertIntEquals(test, numLinks, hashMapSize(map));
     
-    // Check capacity
+    /* Check capacity */
     CuAssertIntEquals(test, map->capacity, hashMapCapacity(map));
     
-    // Check empty buckets
+    /* Check empty buckets */
     int sum = 0;
     for (int i = 0; i < map->capacity; i++)
     {
@@ -150,10 +142,10 @@ void testCase(CuTest* test, HashLink* links, const char** notKeys, int numLinks,
     }
     CuAssertIntEquals(test, sum, hashMapEmptyBuckets(map));
     
-    // Check table load
+    /* Check table load */
     CuAssertIntEquals(test, (float)numLinks / map->capacity, hashMapTableLoad(map));
     
-    // Check contains and get on valid keys.
+    /* Check contains and get on valid keys. */
     for (int i = 0; i < numLinks; i++)
     {
         CuAssertIntEquals(test, 1, hashMapContainsKey(map, links[i].key));
@@ -161,69 +153,63 @@ void testCase(CuTest* test, HashLink* links, const char** notKeys, int numLinks,
         CuAssertPtrNotNull(test, value);
         CuAssertIntEquals(test, links[i].value, *value);
     }
-    
-    // Check contains and get on invalid keys.
+
+    /* Check contains and get on invalid keys. */
     for (int i = 0; i < numNotKeys; i++)
     {
         CuAssertIntEquals(test, 0, hashMapContainsKey(map, notKeys[i]));
         CuAssertPtrEquals(test, NULL, hashMapGet(map, notKeys[i]));
     }
-    
-    // Check that all links are present and have a unique key.
+
+    /* Check that all links are present and have a unique key. */
     histFromTable(&hist, map);
     CuAssertIntEquals(test, numLinks, hist.size);
     assertHistCounts(test, &hist);
     histCleanUp(&hist);
-    
-    // Remove keys
+
+    /* Remove keys */
     for (int i = 0; i < numLinks; i++)
     {
         hashMapRemove(map, links[i].key);
     }
-    
-    // Print table
+
+    /* Print table */
     printf("\nAfter removing all key-value pairs:");
     hashMapPrint(map);
-    
-    // Check size
+    /* Check size */
     CuAssertIntEquals(test, 0, hashMapSize(map));
-    
-    // Check capacity
+    /* Check capacity */
     CuAssertIntEquals(test, map->capacity, hashMapCapacity(map));
-    
-    // Check empty buckets
+    /* Check empty buckets */
     CuAssertIntEquals(test, map->capacity, hashMapEmptyBuckets(map));
-    
-    // Check table load
+    /* Check table load */
     CuAssertIntEquals(test, 0, hashMapTableLoad(map));
-    
-    // Check contains and get on valid keys.
+
+    /* Check contains and get on valid keys. */
     for (int i = 0; i < numLinks; i++)
     {
         CuAssertIntEquals(test, 0, hashMapContainsKey(map, links[i].key));
         CuAssertPtrEquals(test, NULL, hashMapGet(map, links[i].key));
     }
-    
-    // Check contains and get on invalid keys.
+
+    /* Check contains and get on invalid keys. */
     for (int i = 0; i < numNotKeys; i++)
     {
         CuAssertIntEquals(test, 0, hashMapContainsKey(map, notKeys[i]));
         CuAssertPtrEquals(test, NULL, hashMapGet(map, notKeys[i]));
     }
-    
-    // Check that there are no links in the table.
+
+    /* Check that there are no links in the table. */
     histFromTable(&hist, map);
     CuAssertIntEquals(test, 0, hist.size);
     assertHistCounts(test, &hist);
     histCleanUp(&hist);
-    
     hashMapDelete(map);
 }
 
-/*
- * Tests hash map functions for a table with no more than one link
+/* Tests hash map functions for a table with no more than one link
  * in each bucket and without hitting the table load threshold.
- * @param test
+ * param: test
  */
 void testSingleUnder(CuTest* test)
 {
@@ -239,10 +225,9 @@ void testSingleUnder(CuTest* test)
     testCase(test, links, notKeys, 5, 3, 10);
 }
 
-/*
- * Tests hash map functions for a table with no more than one link
+/* Tests hash map functions for a table with no more than one link
  * in each bucket while hitting the table load threshold.
- * @param test
+ * param: test
  */
 void testSingleOver(CuTest* test)
 {
@@ -258,10 +243,9 @@ void testSingleOver(CuTest* test)
     testCase(test, links, notKeys, 5, 3, 1);
 }
 
-/*
- * Tests hash map functions for a table with 2+ links in some buckets without
+/* Tests hash map functions for a table with 2+ links in some buckets without
  * hitting the table load threshold.
- * @param test
+ * param: test
  */
 void testMultipleUnder(CuTest* test)
 {
@@ -279,7 +263,7 @@ void testMultipleUnder(CuTest* test)
 
 /* Tests hash map functions for a table with 2+ links in some buckets while
  * hitting the table load threshold.
- * @param test
+ * param: test
  */
 void testMultipleOver(CuTest* test)
 {
@@ -297,7 +281,7 @@ void testMultipleOver(CuTest* test)
 
 /* Tests that values are updated when inserting with a key already in the table.
  * Also tests that keys remain unique after insertion (no duplicate links).
- * @param test
+ * param: test
  */
 void testValueUpdate(CuTest* test)
 {
@@ -313,13 +297,13 @@ void testValueUpdate(CuTest* test)
     
     HashMap* map = hashMapNew(1);
     
-    // Add links
+    /* Add links */
     for (int i = 0; i < numLinks; i++)
     {
         hashMapPut(map, links[i].key, links[i].value);
     }
     
-    // Print table
+    /* Print table */
     printf("\nAfter adding all key-value pairs:");
     hashMapPrint(map);
     
@@ -336,8 +320,7 @@ void testValueUpdate(CuTest* test)
     hashMapDelete(map);
 }
 
-// --- Test Suite ---
-
+/* --- Test Suite --- */
 void addAllTests(CuSuite* suite)
 {
     SUITE_ADD_TEST(suite, testSingleUnder);
@@ -360,6 +343,5 @@ int main()
     CuSuiteDelete(suite);
 
 	system("pause");
-
     return 0;
 }

@@ -1,6 +1,5 @@
 /* Provided by Professor
- * CS 261 Data Structures
- * Assignment 6
+ * CS 261 Data Structures - Assignment 6
  */
 #ifndef HASH_MAP_H
 #define HASH_MAP_H
@@ -21,19 +20,17 @@ struct HashLink
 struct HashMap
 {
     HashLink** table;
-    // Number of links in the table.
-    int size;
-    // Number of buckets in the table.
-    int capacity;
+    int size;	    /* Number of links in the table. */
+    int capacity;	/* Number of buckets in the table. */
 };
 
+/* HASH MAP FUNCTIONS */
 HashMap* hashMapNew(int capacity);
 void hashMapDelete(HashMap* map);
 int* hashMapGet(HashMap* map, const char* key);
 void hashMapPut(HashMap* map, const char* key, int value);
 void hashMapRemove(HashMap* map, const char* key);
 int hashMapContainsKey(HashMap* map, const char* key);
-
 int hashMapSize(HashMap* map);
 int hashMapCapacity(HashMap* map);
 int hashMapEmptyBuckets(HashMap* map);

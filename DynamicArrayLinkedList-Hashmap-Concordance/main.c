@@ -2,11 +2,10 @@
  * Assignment 6
  * Name: Ryan Gift
  * Date: 06/04/17
- * Solution Description: This file contains the methods to open a .txt
- * file, count the number of instances of each word in the file. Each
- * instance is added to a hash map. It then prints out the totals for
- * each word in the document. This file must be combined with the 
- * hashMap.c and hashMap.h files.
+ * Solution Description: This file contains the methods to open a .txt file, count the 
+ * number of instances of each word in the file. Each instance is added to a hash map. 
+ * It then prints out the totals for each word in the document. This file must be 
+ * combined with the hashMap.c and hashMap.h files.
  */
 #include "hashMap.h"
 #include <stdlib.h>
@@ -16,8 +15,7 @@
 #include <assert.h>
 #pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
-/*
- * Allocates a string for the next word in the file and returns it. This string
+/* Allocates a string for the next word in the file and returns it. This string
  * is null terminated. Returns NULL after reaching the end of the file.
  * @param file
  * @return Allocated string or NULL.
@@ -58,13 +56,8 @@ char* nextWord(FILE* file)
     return word;
 }
 
-/* 
- * Prints the concordance of the given file and performance information. Uses
- * the file input1.txt by default or a file name specified as a command line
- * argument.
- * @param argc
- * @param argv
- * @return
+/* Prints the concordance of the given file and performance information. Uses
+ * the file input1.txt by default or a file name specified as a command line argument.
  */
 int main(int argc, const char** argv)
 {
@@ -80,11 +73,11 @@ int main(int argc, const char** argv)
     HashMap* map = hashMapNew(10);
     
 	
-	// --- Concordance code begins here ---
-	/* open the file with the fileName and populate it with the words */
-	FILE *concordFile = fopen(fileName, "r");
+	/* --- CONCORDANCE CODE BEGINS HERE --- */
 	
-	/* assign first word to newWord if it exists */
+
+	/* open the file with the fileName and populate newWord with first word */
+	FILE *concordFile = fopen(fileName, "r");
 	char* newWord = nextWord(concordFile);
 
 	/* iterate the concordance until the end of the file is reached */
@@ -93,42 +86,39 @@ int main(int argc, const char** argv)
 		/* each hashLink stores a word from the document as the key */
 		/* the number of times the word appears is the hashLink value */
 
-		/* STEP 1: check if words in list, if true then increment count
-		           else put the word in the hash map and increment count */
-		/* void hashMapPut(HashMap* map, const char* key, int value)
-		 * Updates the given key-value pair in the hash table.
-		 * If a link with key already exists, this will just update the value.
-		 * Else create new link with key & value then add to table's bucket linked list.
-		 */
-		hashMapPut(map, newWord, 1);
-		/* STEP 2: now free the current word */
-		free(newWord);
-		/* STEP 3: get the next word  */
-		newWord = nextWord(concordFile);
+		hashMapPut(map, newWord, 1);	/* STEP 1: put the word in the hash map and increment count */
+		free(newWord);	/* STEP 2: now free the current word */
+		newWord = nextWord(concordFile);	/* STEP 3: get the next word  */
 	}
 
-	// print key : value
-	for (int i = 0; i < (map->capacity); i++) {
-		/* get the current index position */
+	/* print key : value */
+	for (int i = 0; i < (map->capacity); i++) 
+	{
+		/* get the current index position and if it has links, iterate list*/
 		HashLink* temp = map->table[i];
-		/* if the current index has links, iterate list */
-		if (temp != 0){
+		if (temp != 0)
+		{
 			/* while we still have links, iterate the list and print */
-			while(temp != 0){
-				printf("\n %s: %d", temp->key, temp->value);
+			/*while(temp != 0)
+			{
+				printf("\n%s: %d", temp->key, temp->value);
+				temp = temp->next;
+			}*/
+			while (temp != 0)
+			{
+				printf("%s: %d -> ", temp->key, temp->value);
 				temp = temp->next;
 			}
+			printf("\n");
 		}
-
 	} 
 	printf("\n");
-	// Be sure to free the word after you are done with it here.
 	fclose(concordFile);
-	// --- Concordance code ends here ---
+
+
+	/* --- CONCORDANCE CODE ENDS HERE --- */
     
-	
 	//hashMapPrint(map);
-    
 	timer = clock() - timer;
 	printf("\nRan in %f seconds\n", (float)timer / (float)CLOCKS_PER_SEC);
 	printf("Empty buckets: %d\n", hashMapEmptyBuckets(map));
@@ -139,6 +129,5 @@ int main(int argc, const char** argv)
 	hashMapDelete(map);
 
 	system("pause");
-
 	return 0;
 }
