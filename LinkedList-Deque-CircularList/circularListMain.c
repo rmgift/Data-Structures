@@ -9,6 +9,7 @@
 
 int main()
 {	
+	/* create deque and add some values */
 	struct CircularList* deque = circularListCreate(); 
 	circularListAddBack(deque, (TYPE)1);
 	circularListAddBack(deque, (TYPE)2);
@@ -16,20 +17,19 @@ int main()
 	circularListAddFront(deque, (TYPE)4);
 	circularListAddFront(deque, (TYPE)5);
 	circularListAddFront(deque, (TYPE)6);
+	/* print the values and the front and back */
 	circularListPrint(deque);
 	printf("%g\n", circularListFront(deque));
 	printf("%g\n", circularListBack(deque));
-	
+	/* remove front and back, then print list again */
 	circularListRemoveFront(deque);
 	circularListRemoveBack(deque);
 	circularListPrint(deque);
-	
+	/* reverse the list and print it again */
 	circularListReverse(deque);
 	circularListPrint(deque);
-	
 	circularListDestroy(deque);
 	
 	system("pause");
-
 	return 0;
 }

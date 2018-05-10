@@ -20,8 +20,7 @@ void circularListDestroy(struct CircularList* list);
 void circularListPrint(struct CircularList* list);
 void circularListReverse(struct CircularList* list);
 
-// Deque interface
-
+/* Deque interface */
 void circularListAddFront(struct CircularList* list, TYPE value);
 void circularListAddBack(struct CircularList* list, TYPE value);
 TYPE circularListFront(struct CircularList* list);
