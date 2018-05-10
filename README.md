@@ -6,6 +6,10 @@ CS 261 Overview:  Abstract Data Types, Dynamic Arrays, Linked Lists, Trees and G
 # Folder Overviews:
 Binary-Search-Tree: changes in process
 
+DynamicArrayLinkedList-Hashmap: changes in process
+
+DynamicArrayLinkedList-Hashmap-Concordance: changes in process
+
 DynamicArray-Stack-Bag: Dynamic array used to implement stack and bag ADT
 
 DynamicArray-Stack-PostfixNotation: Validate a string containing {[()]} characters using the stack data structure
@@ -17,9 +21,5 @@ LinkedList-Deque-CircularList: Circular doubly linked list used to implement deq
 PriorityQueue-Heap-Heapsort: changes in process
 
 PriorityQueue-Heap-TodoList: changes in process
-
-arrayLinkedListsHashmap: changes in process
-
-arrayLinkedListsHashmapConcordance: changes in process
 
 dequeBFSandDFS: changes in process
