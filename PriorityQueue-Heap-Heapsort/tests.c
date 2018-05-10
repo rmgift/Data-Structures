@@ -1,5 +1,4 @@
-/*
- * tests.c file provided by Professor
+/* tests.c file provided by Professor
  * CS 261 Data Structures
  * Assignment 5 unit tests
  */
@@ -9,14 +8,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
-// --- Internal functions to be tested ---
-
+/* --- Internal functions to be tested --- */
 void adjustHeap(DynamicArray* heap, int last, int position, compareFunction compare);
 void buildHeap(DynamicArray* heap, compareFunction compare);
 
-// --- Test helper functions ---
-
+/* --- Test helper functions ---*/
 void shuffle(DynamicArray* array)
 {
     for (int i = 0; i < dySize(array); i++)
@@ -57,19 +55,10 @@ void assertHeapProperty(CuTest* test, DynamicArray* heap)
     }
 }
 
-// --- Tests ----
-
-/*
- * adjustHeap
- * buildHeap
- * dyHeapAdd
- * dyHeapRemoveMin
- * dyHeapGetMin
- * dyHeapSort
- * taskNew
- * taskCompare
+/* TESTS 
+ * adjustHeap --- buildHeap --- dyHeapAdd --- dyHeapRemoveMin
+ * dyHeapGetMin --- dyHeapSort --- taskNew --- taskCompare
  */
-
 void testAdjustHeap(CuTest* test)
 {
     const int n = 100;
@@ -240,9 +229,8 @@ void testTaskCompare(CuTest* test)
 }
 
 
-/**
- * Just a skeleton code function test.
- * @param test
+/* Just a skeleton code function test.
+ * param: test
  */
 void testDyOrderedAdd(CuTest* test)
 {
@@ -267,14 +255,10 @@ void testDyOrderedAdd(CuTest* test)
     free(tasks);
 }
 
-// --- Test suite ---
-
-/*
- * To add a test, just write a function above with the following prototype,
- * void testFunction(CuTest* test)
- * , and add it to this function with the following line of code,
+/* Test suite */
+/* To add a test, just write a function above with the following prototype,
+ * void testFunction(CuTest* test), and add it to this function with the following line of code,
  * SUITE_ADD_TEST(suite, testFunction);
- *
  * See CuTest.h for all the different assert macro functions.
  */
 void addTests(CuSuite* suite)
@@ -287,7 +271,7 @@ void addTests(CuSuite* suite)
     SUITE_ADD_TEST(suite, testDyHeapSort);
     SUITE_ADD_TEST(suite, testTaskNew);
     SUITE_ADD_TEST(suite, testTaskCompare);
-	//SUITE_ADD_TEST(suite, testDyOrderedAdd);
+	SUITE_ADD_TEST(suite, testDyOrderedAdd);
 }
 
 void runTests()
@@ -307,5 +291,6 @@ void runTests()
 int main()
 {
     runTests();
+	system("pause");
     return 0;
 }

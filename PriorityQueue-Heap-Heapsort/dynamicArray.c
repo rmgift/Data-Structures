@@ -1,14 +1,13 @@
 /* CS 261 Assignment 5 - Part 1
  * Name: Ryan Gift
  * Date: 05/28/17
- * Solution Description: This file implements the methods for the 
- * heap structure. The methods in this file add elements to the heap,
- * remove elements, return the 1st element and sort the heap. In order
- * to complete my adjust heap function I had to include an internal
- * function called indexSmallest which takes to indices, the heap,
- * and the compare function and returns the smallest index of the two.
- * This file should be combined with the dynamicyArray.h file, the 
- * tests.c file and the CuTest files.
+ * Description: This file implements the methods for the heap structure. 
+ * The methods in this file add elements to the heap, remove elements, 
+ * return the 1st element and sort the heap. In order to complete my 
+ * adjust heap function I had to include an internal function called 
+ * indexSmallest which takes to indices, the heap, and the compare function 
+ * and returns the smallest index of the two. This file should be combined 
+ * with the dynamicyArray.h file, the tests.c file and the CuTest files.
  */
 #include "dynamicArray.h"
 #include <stdlib.h>
@@ -31,9 +30,7 @@ struct DynamicArray
 
 
 /*************************************************************************
- *                                                                       *
  *----------------------- Dynamic Array Functions -----------------------*
- *                                                                       *
  ************************************************************************/
 static void setCapacity(DynamicArray* array, int capacity)
 {
@@ -125,11 +122,8 @@ void dySwap(DynamicArray* array, int position1, int position2)
 }
 
 
-
 /*************************************************************************
-*                                                                        *
 *---------------------- Stack Interface Functions -----------------------*
-*                                                                        *
 *************************************************************************/
 void dyStackPush(DynamicArray* stack, TYPE value)
 {
@@ -152,11 +146,8 @@ int dyStackIsEmpty(DynamicArray* stack)
 }
 
 
-
 /*************************************************************************
-*                                                                        *
 *----------------------- Bag Interface Functions ------------------------*
-*                                                                        *
 *************************************************************************/
 static int findFirst(DynamicArray* array, TYPE value, compareFunction compare)
 {
@@ -191,9 +182,7 @@ int dyBagContains(DynamicArray* bag, TYPE value, compareFunction compare)
 
 
 /*************************************************************************
-*                                                                        *
 *------------------- Ordered Bag Interface Functions --------------------*
-*                                                                        *
 *************************************************************************/
 static int binarySearch(DynamicArray* array, TYPE value, compareFunction compare)
 {
@@ -240,14 +229,10 @@ int dyOrderedContains(DynamicArray* bag, TYPE value, compareFunction compare)
 }
 
 
-
 /*************************************************************************
-*                                                                        *
 *----------------------- Heap Interface Functions -----------------------*
-*                                                                        *
 *************************************************************************/
-/*
- * Internal routine to help adjustHeap function
+/* Internal routine to help adjustHeap function
  * takes heap and two index values to compare and then returns the smaller of the two
  */
 int _indexSmallest(DynamicArray *heap, int i, int j, compareFunction compare)
@@ -261,12 +246,11 @@ int _indexSmallest(DynamicArray *heap, int i, int j, compareFunction compare)
 	}
 }
 
-/*
- * Adjusts heap to maintain the heap property.
- * @param heap
- * @param last  index to adjust up to.
- * @param position  index where adjustment starts.
- * @param compare  pointer to compare function.
+/* Adjusts heap to maintain the heap property.
+ * param: heap
+ * param: last index to adjust up to.
+ * param: position index where adjustment starts.
+ * param: compare pointer to compare function.
  */
 void adjustHeap(DynamicArray* heap, int last, int position, compareFunction compare)
 {
@@ -291,8 +275,7 @@ void adjustHeap(DynamicArray* heap, int last, int position, compareFunction comp
 	}
 	else if (leftIdx < last) 
 	{
-		/* check for two children */
-		/* compare child to parent */
+		/* check for two children, compare child to parent */
 		if(compare(dyGet(heap, leftIdx), dyGet(heap, position)) == -1)
 		{
 			/* if necessary swap and call adjustHeap() */
@@ -303,10 +286,9 @@ void adjustHeap(DynamicArray* heap, int last, int position, compareFunction comp
 	/* else no children, at bottom and done */
 }
 
-/*
- * Builds a valid heap from an arbitrary array.
- * @param heap  array with elements in any order.
- * @param compare  pointer to compare function.
+/* Builds a valid heap from an arbitrary array.
+ * param: heap array with elements in any order.
+ * param: compare pointer to compare function.
  */
 void buildHeap(DynamicArray* heap, compareFunction compare)
 {
@@ -320,16 +302,14 @@ void buildHeap(DynamicArray* heap, compareFunction compare)
 	}
 }
 
-/*
- * Adds an element to the heap.
- * @param heap
- * @param value  value to be added to heap.
- * @param compare  pointer to compare function.
+/* Adds an element to the heap.
+ * param: heap
+ * param: value value to be added to heap.
+ * param: compare pointer to compare function.
  */
 void dyHeapAdd(DynamicArray* heap, TYPE value, compareFunction compare)
 {
 	assert(heap != 0);
-
 	int parent;
 	/* pos is the size or next open spot */
 	int pos = dySize(heap);
@@ -340,7 +320,6 @@ void dyHeapAdd(DynamicArray* heap, TYPE value, compareFunction compare)
 	{
 		/* compute the parent of the element we just added */
 		parent = (pos - 1) / 2;
-
 		/* compare value at pos to value at parent */
 		if (compare(dyGet(heap, pos), dyGet(heap, parent)) == -1) 
 		{
@@ -356,10 +335,9 @@ void dyHeapAdd(DynamicArray* heap, TYPE value, compareFunction compare)
 	}
 }
 
-/*
- * Removes the first element, which has the min priority, form the heap.
- * @param heap
- * @param compare  pointer to the compare function.
+/* Removes the first element, which has the min priority, form the heap.
+ * param: heap
+ * param; compare pointer to the compare function.
  */
 void dyHeapRemoveMin(DynamicArray* heap, compareFunction compare)
 {
@@ -372,10 +350,9 @@ void dyHeapRemoveMin(DynamicArray* heap, compareFunction compare)
 	adjustHeap(heap, last, 0, compare);
 }
 
-/*
- * Returns the first element, which has the min priority, from the heap.
- * @param heap
- * @return  Element at the top of the heap.
+/* Returns the first element, which has the min priority, from the heap.
+ * param: heap
+ * return: Element at the top of the heap.
  */
 TYPE dyHeapGetMin(DynamicArray* heap)
 {
@@ -384,10 +361,9 @@ TYPE dyHeapGetMin(DynamicArray* heap)
 	return dyGet(heap, 0);
 }
 
-/*
- * Sorts arbitrary array in-place.
- * @param heap  array with elements in arbitrary order.
- * @param compare  pointer to the compare function.
+/* Sorts arbitrary array in-place.
+ * param: heap array with elements in arbitrary order.
+ * param: compare pointer to the compare function.
  */
 void dyHeapSort(DynamicArray* heap, compareFunction compare)
 {
@@ -404,11 +380,8 @@ void dyHeapSort(DynamicArray* heap, compareFunction compare)
 }
 
 
-
 /*************************************************************************
-*                                                                        *
 *--------------------- Iterator Interface Functions ---------------------*
-*                                                                        *
 *************************************************************************/
 DynamicArrayIterator* dyIteratorNew(DynamicArray* array)
 {
@@ -442,11 +415,8 @@ void dyIteratorRemove(DynamicArrayIterator* iterator)
 }
 
 
-
 /*************************************************************************
-*                                                                        *
 *-------------------------- Utility Functions ---------------------------*
-*                                                                        *
 *************************************************************************/
 void dyPrint(DynamicArray* array, printFunction print)
 {

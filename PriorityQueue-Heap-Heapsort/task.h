@@ -4,7 +4,7 @@
 #ifndef TASK_H
 #define TASK_H
 
-#define TASK_NAME_SIZE 128
+#define TASK_NAME_SIZE 256
 
 typedef struct Task Task;
 

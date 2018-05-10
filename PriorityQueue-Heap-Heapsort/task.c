@@ -1,21 +1,21 @@
 /* CS 261 Assignment 5 - Part 2
  * Name: Ryan Gift
  * Date: 05/28/17
- * Solution description: This file implements the task functions
- * to create a task and return it and compare two tasks by their
- * priority. This file should be combined with the task.h file,
- * dynamicArray files, and toDo.c file.
+ * Description: This file implements the task functions to create a 
+ * task and return it and compare two tasks by their priority. This 
+ * file should be combined with the task.h file, dynamicArray files, 
+ * and toDo.c file.
  */
 #include "task.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
-/*
- * Creates a new task with the given priority and name.
- * @param priority
- * @param name
- * @return The new task.
+/* Creates a new task with the given priority and name.
+ * param: priority
+ * param: name
+ * return: new task.
  */
 Task* taskNew(int priority, char* name)
 {
@@ -28,23 +28,20 @@ Task* taskNew(int priority, char* name)
     return newTask;
 }
 
-/*
- * Frees a dynamically allocated task.
- * @param task
+/* Frees a dynamically allocated task.
+ * param: task
  */
 void taskDelete(Task* task)
 {
     free(task);
 }
 
-/*
- * Casts left and right to Task pointers and returns
+/* Casts left and right to Task pointers and returns
  * -1 if left's priority < right's priority,
  *  1 if left's priority > right's priority,
  *  0 if left's priority == right's priority.
- * @param left  Task pointer.
- * @param right  Task pointer.
- * @return 
+ * param: left Task pointer.
+ * param: right Task pointer.
  */
 int taskCompare(void* left, void* right)
 {
@@ -68,9 +65,8 @@ int taskCompare(void* left, void* right)
 	}
 }
 
-/*
- * Prints a task as a (priority, name) pair.
- * @param value  Task pointer.
+/* Prints a task as a (priority, name) pair.
+ * param: value Task pointer.
  */
 void taskPrint(void* value)
 {

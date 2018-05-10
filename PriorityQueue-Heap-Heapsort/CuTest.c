@@ -12,6 +12,7 @@
 #include <math.h>
 #include <limits.h>
 #include "CuTest.h"
+#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
 /*-------------------------------------------------------------------------*
  * CuStr
@@ -29,6 +30,7 @@ char* CuStrCopy(const char* old)
 	strcpy(newStr, old);
 	return newStr;
 }
+
 
 /*-------------------------------------------------------------------------*
  * CuString
@@ -109,10 +111,10 @@ void CuStringInsert(CuString* str, const char* text, int pos)
 	memcpy(str->buffer + pos, text, length);
 }
 
+
 /*-------------------------------------------------------------------------*
  * CuTest
  *-------------------------------------------------------------------------*/
-
 void CuTestInit(CuTest* t, const char* name, TestFunction function)
 {
 	t->name = CuStrCopy(name);
@@ -250,7 +252,6 @@ void CuAssertPtrEquals_LineMsg(CuTest* tc, const char* file, int line, const cha
 /*-------------------------------------------------------------------------*
  * CuSuite
  *-------------------------------------------------------------------------*/
-
 void CuSuiteInit(CuSuite* testSuite)
 {
 	testSuite->count = 0;
@@ -346,9 +347,13 @@ void CuSuiteDetails(CuSuite* testSuite, CuString* details)
 	else
 	{
 		if (testSuite->failCount == 1)
+		{
 			CuStringAppend(details, "There was 1 failure:\n");
+		}
 		else
+		{
 			CuStringAppendFormat(details, "There were %d failures:\n", testSuite->failCount);
+		}
 
 		for (i = 0 ; i < testSuite->count ; ++i)
 		{
@@ -356,12 +361,11 @@ void CuSuiteDetails(CuSuite* testSuite, CuString* details)
 			if (testCase->failed)
 			{
 				failCount++;
-				CuStringAppendFormat(details, "%d) %s: %s\n",
-					failCount, testCase->name, testCase->message);
+				CuStringAppendFormat(details, "%d) %s: %s\n", failCount, testCase->name, testCase->message);
 			}
 		}
-		CuStringAppend(details, "\n!!!FAILURES!!!\n");
 
+		CuStringAppend(details, "\n!!!FAILURES!!!\n");
 		CuStringAppendFormat(details, "Runs: %d ",   testSuite->count);
 		CuStringAppendFormat(details, "Passes: %d ", testSuite->count - testSuite->failCount);
 		CuStringAppendFormat(details, "Fails: %d\n",  testSuite->failCount);

@@ -1,10 +1,6 @@
 #ifndef DYNAMIC_ARRAY_H
 #define DYNAMIC_ARRAY_H
 
-/*
- * CS 261 Data Structures
- */
-
 #define TYPE void*
 
 typedef struct DynamicArray DynamicArray;
@@ -16,7 +12,7 @@ struct DynamicArray;
 DynamicArray* dyNew(int capacity);
 void dyDelete(DynamicArray* array);
 
-// Dynamic array
+/* Dynamic array */
 void dyAdd(DynamicArray* array, TYPE value);
 void dyAddAt(DynamicArray* array, TYPE value, int position);
 void dyPut(DynamicArray* array, TYPE value, int position);
@@ -25,29 +21,29 @@ TYPE dyGet(DynamicArray* array, int position);
 int dySize(DynamicArray* array);
 void dySwap(DynamicArray* array, int position1, int position2);
 
-// Stack
+/* Stack */
 void dyStackPush(DynamicArray* stack, TYPE value);
 void dyStackPop(DynamicArray* stack);
 TYPE dyStackTop(DynamicArray* stack);
 int dyStackIsEmpty(DynamicArray* stack);
 
-// Bag
+/* Bag */
 void dyBagAdd(DynamicArray* bag, TYPE value);
 void dyBagRemove(DynamicArray* bag, TYPE value, compareFunction compare);
 int dyBagContains(DynamicArray* bag, TYPE value, compareFunction compare);
 
-// Ordered bag
+/* Ordered bag */
 void dyOrderedAdd(DynamicArray* bag, TYPE value, compareFunction compare);
 void dyOrderedRemove(DynamicArray* bag, TYPE value, compareFunction compare);
 int dyOrderedContains(DynamicArray* bag, TYPE value, compareFunction compare);
 
-// Heap
+/* Heap */
 void dyHeapAdd(DynamicArray* heap, TYPE value, compareFunction compare);
 void dyHeapRemoveMin(DynamicArray* heap, compareFunction compare);
 TYPE dyHeapGetMin(DynamicArray* heap);
 void dyHeapSort(DynamicArray* heap, compareFunction compare);
 
-// Iterator
+/* Iterator */
 typedef struct DynamicArrayIterator DynamicArrayIterator;
 
 struct DynamicArrayIterator

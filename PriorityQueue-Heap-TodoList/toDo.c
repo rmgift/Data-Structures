@@ -1,24 +1,24 @@
 /* CS 261 Assignment 5 - Part 2
  * Name: Ryan Gift
  * Date: 05/28/17
- * Solution description: This file implements the methods to create
- * a to do list from user input. The methods in this file assist each 
- * other with the creation of a to-do list via the heap. Each to-do list
- * item contains a name and priority value assigned to it. This file 
- * should be combined with the Task files, DynamicArray files, and the 
- * todo.txt file if you wish to use an existing list.
+ * Description: This file implements the methods to create a to do list 
+ * from user input. The methods in this file assist each other with the 
+ * creation of a to-do list via the heap. Each to-do list item contains 
+ * a name and priority value assigned to it. This file should be combined 
+ * with the Task files, DynamicArray files, and the todo.txt file if you 
+ * wish to use an existing list.
  */
-#include "dynamicArray.h"
-#include "task.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
+#include "dynamicArray.h"
+#include "task.h"
+#pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
-/*
- * Loads into heap a list from a file with lines formatted like
- * "priority, name".
- * @param heap
- * @param file
+/* Loads into heap a list from a file with lines formatted like "priority, name".
+ * param: heap
+ * param: file
  */
 void listLoad(DynamicArray* heap, FILE* file)
 {
@@ -34,11 +34,9 @@ void listLoad(DynamicArray* heap, FILE* file)
     }
 }
 
-/*
- * Writes to a file all tasks in heap with lines formatted like
- * "priority, name".
- * @param heap
- * @param file
+/* Writes to a file all tasks in heap with lines formatted like "priority, name".
+ * param: heap
+ * param: file
  */
 void listSave(DynamicArray* heap, FILE* file)
 {
@@ -49,9 +47,8 @@ void listSave(DynamicArray* heap, FILE* file)
     }
 }
 
-/*
- * Prints every task in heap.
- * @param heap
+/* Prints every task in heap.
+ * param: heap
  */
 void listPrint(DynamicArray* heap)
 {
@@ -68,29 +65,12 @@ void listPrint(DynamicArray* heap)
     dyDelete(temp);
 }
 
-/*
- * Handles the given command.
- * @param list
- * @param command
+/* Handles the given command.
+ * param: list
+ * param: command
  */
 void handleCommand(DynamicArray* list, char command)
 {
-	/* MY NOTES ABOUT FILES: 
-	 * before a file structure can be used it must be initialized
-	 * FILE *fopen(const char *filename, const char *mode);
-	
-	 * FILE OPERATIONS:
-	 * "r": read from file
-	 * "w": write to file overwriting its contents, create the file if it doesn't exist
-	 * "a": write to the file appending to the file, creating it if it doesn't exist 
-	 * "r+": open for reading and writing, start at beginning 
-	 * "w+": open for reading and writing (overwrite file) 
-	 * "a+": open for reading and writing (append if file exists) 
-
-	 * int getc(FILE* fp); will return current character from fp and advance to next character
-	 * char* putc(const char* s, FILE* fp); will write one character to file
-	 * int fclose(FILE *a_file); 
-	**/
 	struct Task *tempTask = malloc(sizeof(struct Task));
 	char *filename[100];
 	char *description[TASK_NAME_SIZE];
@@ -102,23 +82,19 @@ void handleCommand(DynamicArray* list, char command)
 		/*  'l' to load to-do list from a file\n  */
 		case 'l':
 			printf("Please enter the filename: ");
-			/* get the filename from the user up to the newline sequence */
+			/* get the filename up to the newline char then set ptr to newline char in array */
 			fgets(filename, sizeof(filename), stdin);
-			/* set nullPtr to our newline sequence element in array */
 			nullPtr = strchr(filename, '\n');
-			/* if succeeded, replace newline sequence with 0 */
+			/* replace newline sequence with null terminator */
 			if (nullPtr) 
 			{
 				*nullPtr = '\0';
 			}
-			/* open the file and assign it to loadFile */
+			/* open file and place items in file into list */
 			FILE *loadFile = fopen(filename, "r+");
-			/* pass our list and loadFile to place to-do items from file into our list */
 			listLoad(list, loadFile);
-			printf("The list has been loaded from file successfully.\n");
-			/* remember to close the file when we're done */
+			printf("The list has been loaded from file successfully.\n\n");
 			fclose(loadFile);
-			printf("\n");
 			break;
 
 		/*  's' to save to-do list to a file\n  */
@@ -127,23 +103,18 @@ void handleCommand(DynamicArray* list, char command)
 			if (dySize(list) > 0) 
 			{
 				printf("Please enter the filename: ");
-				/* get the file name from the user up to the newline sequence */
+				/* get the file name and replace newline char with null term */
 				fgets(filename, sizeof(filename), stdin);
-				/* set nullPtr to our newline sequence element in array */
 				nullPtr = strchr(filename, '\n');
-				/* if succeeded, replace newline sequence with 0 */
 				if (nullPtr) 
 				{
 					*nullPtr = '\0';
 				}
-				/* open the file and assign it to saveFile*/
+				/* open the file and write list into it */
 				FILE *saveFile = fopen(filename, "w+");
-				/* call list save function to place to-do items into file */
 				listSave(list, saveFile);
-				printf("The list has been saved into the file successfully.\n");
-				/* remember to close the file when you're done */
+				printf("The list has been saved into the file successfully.\n\n");
 				fclose(saveFile);
-				printf("\n");
 			}
 			else 
 			{
@@ -154,41 +125,39 @@ void handleCommand(DynamicArray* list, char command)
 
 		/*  'a' to add a new task\n  */
 		case 'a':
-			/* get the description of the task from the user */
+			/* get the description and priority of the task from the user */
 			printf("Please enter the task description: ");
-			fgets(description, 100, stdin);
-			/* remove the newline escape sequence and replace it with a 0 */
-			if (description[strlen(description) - 1] == '\n') 
+			fgets(description, sizeof(description), stdin);
+			nullPtr = strchr(description, '\n');
+			if (nullPtr)
 			{
-				description[strlen(description) - 1] = 0;
+				*nullPtr = '\0';
 			}
-			/* get the priority value as a reference */
+
 			do 
 			{
+				/* make sure value is in range of 0 to 999 */
 				printf("Please enter the task priority (0-999): ");
 				scanf("%d", &priority);
-				/* make sure value is in range of 0 to 999 */
 			} while (!(priority >= 0 && priority <= 999));
-			/* clear escape sequence from buffer */
+
 			while (getchar() != '\n');
-			/* assign tempTask the its priority and name */
+			/* assign new task with priority and description then add it to our list */
 			tempTask = taskNew(priority, description);
-			/* add the task to our list/heap */
 			dyHeapAdd(list, tempTask, taskCompare);
-			printf("The task '%s' was added to your to-do list.\n", description);
-			printf('\n');
+			printf("The task '%s' was added to your to-do list.\n\n", description);
 			break;
 
 		/*  'g' to get the first task\n  */
 		case 'g':
 			/* if our list contains to-do items, get it and print name */
-			if (dySize(list) > 0) 
+			if (dySize(list) > 0)
 			{
 				tempTask = dyHeapGetMin(list);
 				printf("Your first task is: %s\n\n", tempTask->name);
 			}
-			/* our to-do list is empty */
-			else {
+			else 
+			{
 				printf("Your to-do list is empty!\n\n");
 			}
 			break;
@@ -198,15 +167,12 @@ void handleCommand(DynamicArray* list, char command)
 			/* if our lists contains tasks, size is greater than 0 */
 			if (dySize(list) > 0) 
 			{
-				/* get our first to-do item */
+				/* get our first to-do item, remove it from the list, and delete it */
 				tempTask = dyHeapGetMin(list);
-				/* remove the item from our heap */
 				dyHeapRemoveMin(list, taskCompare);
 				printf("Your first task '%s' has been removed from the list.\n", tempTask->name);
-				/*	delete task from the list */
 				taskDelete(tempTask);
 			}
-			/* to-do list is empty, cannot remove items */
 			else 
 			{
 				printf("Your to-do list is already empty!\n");
@@ -221,7 +187,6 @@ void handleCommand(DynamicArray* list, char command)
 			{
 				listPrint(list);
 			}
-			/* no to-do items in our list */
 			else 
 			{
 				printf("You to-do list is empty!\n");
@@ -252,14 +217,16 @@ int main()
                "'p' to print the list\n"
                "'e' to exit the program\n"
         );
-        command = getchar();	/* get input command from keyboard */
-        // Eat newlines
-        while (getchar() != '\n');	/* clear trailing newline character */
-        handleCommand(list, command);	/* call function */
-    }
-    while (command != 'e');
+		
+		/* get input command from keyboard, clearn newline char, call function */
+        command = getchar();
+        while (getchar() != '\n');
+        handleCommand(list, command);
+	} while (command != 'e');
+	
 	/* free dynamically allocated List pointers in array to avoid memory leaks */
-
     dyDelete(list);
+
+	system("pause");
     return 0;
 }
