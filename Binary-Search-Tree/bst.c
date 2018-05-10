@@ -1,13 +1,11 @@
 /* CS261- Assignment 4 - Part 1
  * Name: Ryan Gift
  * Date: 05/14/2017
- * Solution description: This file implements the methods
- * for the binary search tree structure. The methods in this
- * file add nodes, remove nodes, search for nodes in the tree
- * as well as several other methods. This file should be combined
- * with the bst.h file, structs.h file, and compare.c file.
- * File: bst.c
- * Implementation of the binary search tree data structure.
+ * Description: This file implements the methods for the binary search 
+ * tree structure. The methods in this file add nodes, remove nodes, 
+ * search for nodes in the tree as well as several other methods. This 
+ * file should be combined with the bst.h file, structs.h file, and 
+ * compare.c file. File: bst.c
  */
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,22 +15,23 @@
 #include "structs.h"
 #pragma warning(disable:4996) // used to disable _CRT_SECURE_NO_WARNINGS
 
-struct Node {
+struct Node 
+{
 	TYPE val;
 	struct Node *left;
 	struct Node *right;
 };
 
-struct BSTree {
+struct BSTree 
+{
 	struct Node *root;
 	int cnt;
 };
 
-/*
- function to initialize the binary search tree.
- param: tree
- pre: tree is not null
- post: tree size is 0 && root is null
+/* function to initialize the binary search tree.
+ * param: tree
+ * pre: tree is not null
+ * post: tree size is 0 && root is null
  */
 void initBSTree(struct BSTree *tree)
 {
@@ -40,26 +39,23 @@ void initBSTree(struct BSTree *tree)
 	tree->root = 0;
 }
 
-/*
- function to create a binary search tree.
- param: none
- pre: none
- post: tree->count = 0 && tree->root = 0
+/* function to create a binary search tree.
+ * param: none
+ * pre: none
+ * post: tree->count = 0 && tree->root = 0
  */
 struct BSTree* newBSTree()
 {
 	struct BSTree *tree = (struct BSTree *)malloc(sizeof(struct BSTree));
 	assert(tree != 0);
-
 	initBSTree(tree);
 	return tree;
 }
 
-/*
- function to free the nodes of a binary search tree
- param: node = the root node of the tree to be freed
- pre: none
- post: node and all descendants are deallocated
+/* function to free the nodes of a binary search tree
+ * param: node = the root node of the tree to be freed
+ * pre: none
+ * post: node and all descendants are deallocated
  */
 void _freeBST(struct Node *node)
 {
@@ -71,13 +67,10 @@ void _freeBST(struct Node *node)
 	}
 }
 
-/*
- function to clear the nodes of a binary search tree
- param: tree = a binary search tree
- pre: tree != null
- post: the nodes of the tree are deallocated
-		tree->root = 0;
-		tree->cnt = 0
+/* function to clear the nodes of a binary search tree
+ * param: tree = a binary search tree
+ * pre: tree != null
+ * post: the nodes of the tree are deallocated
  */
 void clearBSTree(struct BSTree *tree)
 {
@@ -89,11 +82,10 @@ void clearBSTree(struct BSTree *tree)
 	tree->cnt = 0;
 }
 
-/*
- function to deallocate a dynamically allocated binary search tree
- param: tree = the binary search tree
- pre: tree != null;
- post: all nodes and the tree structure itself are deallocated.
+/* function to deallocate a dynamically allocated binary search tree
+ * param: tree = the binary search tree
+ * pre: tree != null;
+ * post: all nodes and the tree structure itself are deallocated.
  */
 void deleteBSTree(struct BSTree *tree)
 {
@@ -104,38 +96,34 @@ void deleteBSTree(struct BSTree *tree)
 	free(tree);
 }
 
-/*
- function to determine if  a binary search tree is empty.
- param: tree = the binary search tree
- pre: tree is not null
+/* function to determine if  a binary search tree is empty.
+ * param: tree = the binary search tree
+ * pre: tree is not null
  */
 int isEmptyBSTree(struct BSTree *tree) 
 { 
 	return (tree->cnt == 0); 
 }
 
-/*
- function to determine the size of a binary search tree
- param: tree = the binary search tree
- pre: tree is not null
+/* function to determine the size of a binary search tree
+ * param: tree = the binary search tree
+ * pre: tree is not null
  */
 int sizeBSTree(struct BSTree *tree) 
 { 
 	return tree->cnt;
 }
 
-/*
- recursive helper function to add a node to the binary search tree.
- param: cur = the current root node
-		val = the value to be added to the binary search tree
- pre: val is not null
+/* recursive helper function to add a node to the binary search tree.
+ * param: cur = the current root node
+ * param: val = the value to be added to the binary search tree
+ * pre: val is not null
  */
 struct Node *_addNode(struct Node *cur, TYPE val)
 {
-	// create a new node and asset value is not null
+	/* create a new node and asset value is not null */
 	struct Node *newNode;
 	assert(val != NULL);
-
 	/* BASE CASE */
 	if (cur == NULL) 
 	{
@@ -144,32 +132,27 @@ struct Node *_addNode(struct Node *cur, TYPE val)
 		/* set new node to val and left and right to null */
 		newNode->val = val;
 		newNode->left =	newNode->right = NULL;
-		/* return node */
 		return newNode;
 	}
 	/* RECURSIVE CASES */
-	/* if current val is less than val */
+	/* if current val is less than val, add node to right */
 	if (compare(cur->val, val) <= 0)
 	{
-		/* add node to right */
 		cur->right = _addNode(cur->right, val);
 	}
-	/* current val is greater than val */
+	/* current val is greater than val, add val to left */
 	else
 	{
-		/* add val to left */
 		cur->left = _addNode(cur->left, val);
 	}
-
 	return cur;
 }
 
-/*
- function to add a value to the binary search tree
- param: tree = the binary search tree
-		val = the value to be added to the tree
- pre: tree is not null and val is not null
- post: tree size increased by 1 && now contains value
+/* function to add a value to the binary search tree
+ * param: tree = the binary search tree
+ * param: val = the value to be added to the tree
+ * pre: tree is not null and val is not null
+ * post: tree size increased by 1 && now contains value
  */
 void addBSTree(struct BSTree *tree, TYPE val)
 {
@@ -177,19 +160,16 @@ void addBSTree(struct BSTree *tree, TYPE val)
 	tree->cnt++;
 }
 
-/*
- function to determine if the binary search tree contains a particular element
- param:	tree = the binary search tree
-		val = the value to search for in the tree
- pre: tree is not null && val is not null
- post: none
+/* function to determine if the binary search tree contains a particular element
+ * param: tree = the binary search tree
+ * param: val = the value to search for in the tree
+ * pre: tree is not null && val is not null
+ * post: none
  */
 int containsBSTree(struct BSTree *tree, TYPE val)
 {
 	assert(tree != 0);
 	assert(val != NULL);
-
-	/* set root to temp node for search */
 	struct Node *newNode = tree->root;
 	/* while temp node does not equal NULL */
 	while (newNode != 0)
@@ -197,7 +177,6 @@ int containsBSTree(struct BSTree *tree, TYPE val)
 		/* compare passed value to current node value */
 		if (compare(val, newNode->val) == 0)
 		{
-			/* found it, return 1 */
 			return 1;
 		}
 		/* val < newNode->val, must be left */
@@ -211,45 +190,38 @@ int containsBSTree(struct BSTree *tree, TYPE val)
 			newNode = newNode->right;
 		}
 	}
-	// return false, value not found
     return 0;
 }
 
-/*
- helper function to find the left most child of a node
- return the value of the left most child of cur
- param: cur	the current node
- pre: cur is not null
- post: none
+/* helper function to find the left most child of a node
+ * return the value of the left most child of cur
+ * param: cur the current node
+ * pre: cur is not null
+ * post: none
  */
 TYPE _leftMost(struct Node *cur)
 {
 	assert(cur != NULL);
-
 	/* if current left node is null */
 	if (cur->left == NULL)
 	{
 		/* return current */
 		return (cur->val);
 	}
-	/* recursive call until we have leftMost Null */
+	/* recursive call until we have leftMost */
 	return _leftMost(cur->left);
 }
 
-
-/*
- recursive helper function to remove the left most child of a node
- NOTE: this function returns cur if its left child is NOT NULL. Otherwise, it 
- returns the right child of cur and free cur.
- param: cur	the current node
- pre: cur is not null
- post: the left most node of cur is not in the tree
+/* recursive helper function to remove the left most child of a node
+ * NOTE: this function returns cur if its left child is NOT NULL. 
+ *    Otherwise, it returns the right child of cur and free cur.
+ * param: cur the current node
+ * pre: cur is not null
+ * post: the left most node of cur is not in the tree
  */
-/*----------------------------------------------------------------------------*/
 struct Node *_removeLeftMost(struct Node *cur)
 {
 	assert(cur != NULL);
-
 	/* if current left is not NULL */
 	if (cur->left != NULL)
 	{
@@ -266,55 +238,46 @@ struct Node *_removeLeftMost(struct Node *cur)
 	}
 }
 
-/*
- recursive helper function to remove a node from the tree
- param:	cur	= the current node
-		val	= the value to be removed from the tree
- pre: val is in the tree && cur is not null && val is not null
+/* recursive helper function to remove a node from the tree
+ * param: cur = the current node
+ * param: val = the value to be removed from the tree
+ * pre: val is in the tree && cur is not null && val is not null
  */
 struct Node *_removeNode(struct Node *cur, TYPE val)
 {
 	/* Assert cur and val are not NULL */
 	assert(cur != NULL);
 	assert(val != NULL);
-
-	/* if value == current.value */
+	/* if value == current value */
 	if (compare(cur->val, val) == 0)
 	{
-		/* if right child is null */
+		/* if right child is null, return left child */
 		if (cur->right == NULL)
 		{
-			/* return left child */
 			return cur->left;
 		}
-		/* else */
-		/* replace value with left most child of right subtree */
+		/* else replace value with left most child of right subtree */
 		cur->val = _leftMost(cur->right);
 		/* set right child to result of removeLeftMost(right) */
 		cur->right = _removeLeftMost(cur->right);
 	}
-	/* else if value < current.value */
+	/* else if value < current value */
 	else if (compare(cur->val, val) > 0)
 	{
-		/* left child = removeNode(left child,	value) */
 		cur->left = _removeNode(cur->left, val);
 	}
-	/* else */
 	else
 	{
-		/* right child = removeNode(right child, value) */
 		cur->right = _removeNode(cur->right, val);
 	}
-	/*return current node */ 
     return cur;
 }
 
-/*
- function to remove a value from the binary search tree
- param: tree = the binary search tree
-		val = the value to be removed from the tree
- pre:	tree && val is not null && val is in the tree
- pose:	tree size is reduced by 1
+/* function to remove a value from the binary search tree
+ * param: tree = the binary search tree
+ * param: val = the value to be removed from the tree
+ * pre: tree && val is not null && val is in the tree
+ * pos: tree size is reduced by 1
  */
 void removeBSTree(struct BSTree *tree, TYPE val)
 {
@@ -335,26 +298,34 @@ void removeBSTree(struct BSTree *tree, TYPE val)
 #if 1
 #include <stdio.h>
 /*----------------------------------------------------------------------------*/
-void printNode(struct Node *cur) {
-	 if (cur == 0) return;
-	 printf("(");
-	 printNode(cur->left);	 
-	 /*Call print_type which prints the value of the TYPE*/
-	 print_type(cur->val);
-	 printNode(cur->right);
-	 printf(")");
+void printNode(struct Node *cur) 
+{
+	if (cur == 0)
+	{
+		return;
+	}
+	printf("(");
+	printNode(cur->left);	 
+	/*Call print_type which prints the value of the TYPE*/
+	print_type(cur->val);
+	printNode(cur->right);
+	printf(")");
 }
 
-void printTree(struct BSTree *tree) {
-	 if (tree == 0) return;	 
-	 printNode(tree->root);	 
+void printTree(struct BSTree *tree) 
+{
+	if (tree == 0)
+	{
+		return;
+	}
+	printNode(tree->root);
 }
 /*----------------------------------------------------------------------------*/
 #endif
 
 /*----------------------------------------------------------------------------*/
 #if 1
-// Test value stuff -----
+/* Test value stuff */
 struct TestValues
 {
     struct data* values;
@@ -410,7 +381,7 @@ void testAddNode()
     struct TestValues* tv = createValues();
     struct BSTree *tree	= newBSTree();
     
-    // Add all values to the tree
+    /* Add all values to the tree */
     for (int i = 0; i < tv->n; ++i)
     {
         addBSTree(tree, &(tv->values[i]));
@@ -421,7 +392,7 @@ void testAddNode()
         }
     }
     
-    // Check that root node is rooty
+    /* Check that root node is rooty */
     if (tree->root->val != &(tv->values[0]))
     {
         printf("addNode() test: FAIL to insert 50 as root\n");
@@ -466,17 +437,18 @@ void testAddNode()
     destroyValues(tv);
 }
 
-/* Tests that the BST contains the added elements,             *
- * and that it does not contain an element that was not added. */
+/* Tests that the BST contains the added elements,
+ * and that it does not contain an element that was not added. 
+ */
 void testContainsBSTree()
 {
     struct TestValues* tv = createValues();
     struct BSTree *tree	= newBSTree();
-    // Create value not added to the tree
+    /* Create value not added to the tree */
     struct data notInTree;
     notInTree.number = 111;
     notInTree.name = "not in tree";
-    // Add all other values to the tree
+    /* Add all other values to the tree */
     for (int i = 0; i < tv->n; ++i)
     {
         addBSTree(tree, &(tv->values[i]));
@@ -577,7 +549,7 @@ void testRemoveNode()
 int main(int argc, char *argv[])
 {
 
-	//After implementing your code, please uncommnet the following calls to the test functions and test your code 
+	/* After implementing your code, please uncommnet the following calls to the test functions and test your code */
 
 	testAddNode();
 
@@ -593,8 +565,7 @@ int main(int argc, char *argv[])
 	printf("\n");
 	testRemoveNode();
 
-	system("pause"); // used for Visual Studio pause
+	system("pause");
 	return 0;
 }
-
 #endif

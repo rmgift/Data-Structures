@@ -1,10 +1,9 @@
 /* CS261- Assignment 4 - Part 1 */
 /* Name: Ryan Gift
  * Date: 05/14/2017
- * Solution description: This file contains the compare method
- * and print method for the binary search tree. The two methods
- * cast pointers to then compare the pointers and/or print the
- * pointers value data. This file should be combined with the 
+ * Description: This file contains the compare method and print method for the 
+ * binary search tree. The two methods cast pointers to then compare the pointers 
+ * and/or print the pointers value data. This file should be combined with the 
  * structs.h file, bst.c file, and bst.h file.
  */
 #include <stdio.h>
